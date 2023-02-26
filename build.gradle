@@ -31,9 +31,9 @@ dependencies {
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 }
 
-tasks.withType<KotlinCompile> {
+tasks.withType(KotlinCompile) {
 	kotlinOptions {
-		options.jvmTarget = '1.8'
+		jvmTarget = '1.8'
 	}
 }
 
