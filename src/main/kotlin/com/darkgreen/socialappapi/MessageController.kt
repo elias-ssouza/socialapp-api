@@ -17,26 +17,29 @@ import org.springframework.web.bind.annotation.RestController
 class MessageController (private val repository: MessageRepository) {
 
     @PostMapping
-    fun create (@RequestBody message: Message) = repository.save(message)
+    fun create(@RequestBody message: Message): Message = repository.save(message)
 
     @GetMapping
     fun getAll(): List<Message> = repository.findAll()
 
     @GetMapping("/{id}")
-    fun getById(@PathVariable id: Long): ResponseEntity<Message> = repository.findById(id).map {
+    fun getById(@PathVariable id: Long): ResponseEntity<Message> =
+        repository.findById(id).map {
         ResponseEntity.ok(it)
     }.orElse(ResponseEntity.notFound().build())
 
-    @PutMapping("{id}")
-    fun update(@PathVariable id: Long, @RequestBody message: Message) : ResponseEntity<Message> = repository.findById(id).map {
+    @PutMapping("/{id}")
+    fun update(@PathVariable id: Long, @RequestBody message: Message) : ResponseEntity<Message> =
+        repository.findById(id).map {
         val messageToUpdate = it.copy(
             text = message.text
         )
         ResponseEntity.ok(repository.save(messageToUpdate))
     }.orElse(ResponseEntity.notFound().build())
 
-    @DeleteMapping("{/id}")
-    fun delete(@PathVariable id: Long): ResponseEntity<Void> = repository.findById(id).map{
+    @DeleteMapping("/{id}")
+    fun delete(@PathVariable id: Long): ResponseEntity<Void> =
+        repository.findById(id).map{
         repository.delete(it)
         ResponseEntity<Void>(HttpStatus.OK)
     }.orElse(ResponseEntity.notFound().build())
