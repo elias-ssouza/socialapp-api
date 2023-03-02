@@ -3,11 +3,13 @@ package com.darkgreen.socialappapi.service
 import com.darkgreen.socialappapi.Message
 import com.darkgreen.socialappapi.MessageRepository
 import org.springframework.stereotype.Service
+import org.springframework.util.Assert
 import java.util.*
 
 @Service
 class MessageServiceImpl (private val repository: MessageRepository) : MessageService {
     override fun create(message: Message): Message {
+        Assert.hasLength(message.text, "Mensagem não pode ser em branco!")
         return repository.save(message)
     }
 

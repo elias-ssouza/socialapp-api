@@ -89,4 +89,20 @@ class MessageControllerTest {
         val findById = messageRepository.findById(message.id!!)
         Assertions.assertFalse(findById.isPresent)
     }
+
+    @Test
+    fun `test create message validation error empty message` () {
+        val message = Message(text="")
+        val json = ObjectMapper().writeValueAsString(message)
+        messageRepository.deleteAll()
+        mockMvc.perform(MockMvcRequestBuilders.post("/messages")
+            .accept(MediaType.APPLICATION_JSON)
+            .contentType(MediaType.APPLICATION_JSON)
+            .content(json))
+            .andExpect(MockMvcResultMatchers.status().isBadRequest)
+            .andExpect(MockMvcResultMatchers.jsonPath("\$.text").value(message.text))
+            .andDo(MockMvcResultHandlers.print())
+
+
+    }
 }
