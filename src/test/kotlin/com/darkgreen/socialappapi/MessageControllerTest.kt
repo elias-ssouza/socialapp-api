@@ -100,7 +100,10 @@ class MessageControllerTest {
             .contentType(MediaType.APPLICATION_JSON)
             .content(json))
             .andExpect(MockMvcResultMatchers.status().isBadRequest)
-            .andExpect(MockMvcResultMatchers.jsonPath("\$.text").value(message.text))
+            .andExpect(MockMvcResultMatchers.jsonPath("\$.statusCode").isNumber)
+            .andExpect(MockMvcResultMatchers.jsonPath("\$.message").isString)
+            .andExpect(MockMvcResultMatchers.jsonPath("\$.statusCode").value(400))
+            .andExpect(MockMvcResultMatchers.jsonPath("\$.message").value("Mensagem não pode ser em branco!"))
             .andDo(MockMvcResultHandlers.print())
 
 

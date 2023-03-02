@@ -11,10 +11,10 @@ import javax.servlet.http.HttpServletRequest
 class ErrorHandler {
     @ExceptionHandler(value = [IllegalArgumentException::class])
     fun illegalArgumentException(request: HttpServletRequest, exception: Exception): ResponseEntity<ErrorResponse>{
-        val errorResponse = ErrorResponse(statuscode = HttpStatus.BAD_REQUEST.value(), message = exception.message!!)
+        val errorResponse = ErrorResponse(statusCode = HttpStatus.BAD_REQUEST.value(), message = exception.message!!)
         return ResponseEntity.badRequest().body(errorResponse)
     }
 
 }
 
-class ErrorResponse(val statuscode: Int, val message: String)
+class ErrorResponse(val statusCode: Int, val message: String)
