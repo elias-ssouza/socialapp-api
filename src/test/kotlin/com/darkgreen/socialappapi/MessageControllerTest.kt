@@ -103,9 +103,24 @@ class MessageControllerTest {
             .andExpect(MockMvcResultMatchers.jsonPath("\$.statusCode").isNumber)
             .andExpect(MockMvcResultMatchers.jsonPath("\$.message").isString)
             .andExpect(MockMvcResultMatchers.jsonPath("\$.statusCode").value(400))
-            .andExpect(MockMvcResultMatchers.jsonPath("\$.message").value("Mensagem não pode ser em branco!"))
+            .andExpect(MockMvcResultMatchers.jsonPath("\$.message").value("[text] não pode ser em branco!"))
             .andDo(MockMvcResultHandlers.print())
+    }
 
-
+    @Test
+    fun `test create message validation error text should be 5 character` () {
+        val message = Message(text="test")
+        val json = ObjectMapper().writeValueAsString(message)
+        messageRepository.deleteAll()
+        mockMvc.perform(MockMvcRequestBuilders.post("/messages")
+            .accept(MediaType.APPLICATION_JSON)
+            .contentType(MediaType.APPLICATION_JSON)
+            .content(json))
+            .andExpect(MockMvcResultMatchers.status().isBadRequest)
+            .andExpect(MockMvcResultMatchers.jsonPath("\$.statusCode").isNumber)
+            .andExpect(MockMvcResultMatchers.jsonPath("\$.message").isString)
+            .andExpect(MockMvcResultMatchers.jsonPath("\$.statusCode").value(400))
+            .andExpect(MockMvcResultMatchers.jsonPath("\$.message").value("[text] deve ter no mínimo 5 caracteres!"))
+            .andDo(MockMvcResultHandlers.print())
     }
 }

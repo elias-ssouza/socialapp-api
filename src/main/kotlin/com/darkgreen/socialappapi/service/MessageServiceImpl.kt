@@ -9,7 +9,9 @@ import java.util.*
 @Service
 class MessageServiceImpl (private val repository: MessageRepository) : MessageService {
     override fun create(message: Message): Message {
-        Assert.hasLength(message.text, "Mensagem não pode ser em branco!")
+        Assert.hasLength(message.text, "[text] não pode ser em branco!")
+        Assert.isTrue(message.text.length >= 5, "[text] deve ter no mínimo 5 caracteres!")
+
         return repository.save(message)
     }
 
