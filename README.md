@@ -8,3 +8,6 @@
 
 ### Terceira versão
 ##### - Refatoração do código e criação do service
+
+### Quarta versão
+##### - Trabalhando com Spring Security
